@@ -176,6 +176,14 @@ drm_start(drm_state_t *state)
 		crtcs->g_gamma = crtcs->r_gamma + crtcs->gamma_size;
 		crtcs->b_gamma = crtcs->g_gamma + crtcs->gamma_size;
 		if (crtcs->r_gamma != NULL) {
+      fprintf(stdout, "==========================\n");
+      fprintf(stdout, "crtc_count: %d\n", crtc_count);
+      fprintf(stdout, "crtc_id: %d\n", crtcs->crtc_id);
+      fprintf(stdout, "==========================\n");
+      for (int i = 0; i <= 8; i++) {
+        fprintf(stdout, "%d: %d\n", i, crtcs->r_gamma[i]);
+      }
+
 			int r = drmModeCrtcGetGamma(state->fd, crtcs->crtc_id, crtcs->gamma_size,
 						    crtcs->r_gamma, crtcs->g_gamma, crtcs->b_gamma);
 			if (r < 0) {
@@ -185,6 +193,11 @@ drm_start(drm_state_t *state)
 				free(crtcs->r_gamma);
 				crtcs->r_gamma = NULL;
 			}
+
+      fprintf(stdout, "==========================\n");
+      for (int i = 0; i <= 8; i++) {
+        fprintf(stdout, "%d: %d\n", i, crtcs->r_gamma[i]);
+      }
 		} else {
 			perror("malloc");
 			drmModeFreeResources(state->res);
